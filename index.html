@@ -86,6 +86,14 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
+  
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+<script>
+  window.TrackJS && TrackJS.install({ 
+    token: "bcc786580e464a04a10f979561bcc7c5"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+</script>
 
   <script>
     let form = document.querySelector('form');
@@ -102,6 +110,123 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    class myFavoriteError extends Error{
+      constructor(message){
+        super(message);
+        this.name = "myFavoriteError";
+      }
+    }
+
+    let consoleLog = document.querySelector('#error-btns').querySelectorAll('button')[0];
+    let consoleError = document.querySelector('#error-btns').querySelectorAll('button')[1];
+    let consoleCount = document.querySelector('#error-btns').querySelectorAll('button')[2];
+    let consoleWarn = document.querySelector('#error-btns').querySelectorAll('button')[3];
+    let consoleAssert = document.querySelector('#error-btns').querySelectorAll('button')[4];
+    let consoleClear = document.querySelector('#error-btns').querySelectorAll('button')[5];
+    let consoleDir = document.querySelector('#error-btns').querySelectorAll('button')[6];
+    let consoleDirxml = document.querySelector('#error-btns').querySelectorAll('button')[7];
+    let consoleGroupStart = document.querySelector('#error-btns').querySelectorAll('button')[8];
+    let consoleGroupEnd = document.querySelector('#error-btns').querySelectorAll('button')[9];
+    let consoleTable = document.querySelector('#error-btns').querySelectorAll('button')[10];
+    let startTimer = document.querySelector('#error-btns').querySelectorAll('button')[11];
+    let endTimer = document.querySelector('#error-btns').querySelectorAll('button')[12];
+    let consoleTrace = document.querySelector('#error-btns').querySelectorAll('button')[13];
+    let globalError = document.querySelector('#error-btns').querySelectorAll('button')[14];
+
+    consoleLog.addEventListener('click', () => {
+      console.log('Console Logging');
+    })
+
+    consoleError.addEventListener('click', () => {
+      console.error("I'm sorry but you have an error");
+    })
+
+    consoleCount.addEventListener('click', () => {
+      console.count('error');
+    })
+
+    consoleWarn.addEventListener('click', () => {
+      console.warn('danger danger');
+    })
+
+    consoleAssert.addEventListener('click', () => {
+      let x = 0
+      let y = 1
+      console.assert(y < x, 'is 0 greater than 1');
+    })
+
+    consoleClear.addEventListener('click', () => {
+      console.clear();
+    })
+
+    consoleDir.addEventListener('click', () => {
+      console.dir(document);
+    })
+
+    consoleDirxml.addEventListener('click', () => {
+      console.dirxml(document);
+    })
+
+    consoleGroupStart.addEventListener('click', () => {
+      console.group('main group');
+      console.log('test inside group');
+    })
+
+    consoleGroupEnd.addEventListener('click', () => {
+      console.groupEnd();
+      console.log('no more grouping');
+    })
+
+    consoleTable.addEventListener('click', () => {
+      console.log('table of buttons');
+      console.table(errorBtns);
+    })
+
+    startTimer.addEventListener('click', () => {
+      console.log('starting timer');
+      console.time('timer');
+    })
+
+    endTimer.addEventListener('click', () => {
+
+      console.timeEnd('timer');
+      console.log('timer stopped');
+    })
+
+    consoleTrace.addEventListener('click', () => {
+      const first = () => { second(); };
+      const second = () => { third(); };
+      const third = () => { fourth(); };
+      const fourth = () => { console.trace(); };
+      first();  
+    })
+
+    globalError.addEventListener('click', () => {
+      console.log('generating error...');
+      try {
+        throw error;
+      }
+      catch(err){
+        console.log('houston we have a problem, but we caught it');
+      }
+      finally{
+        console.log('now we throw a global error')
+        throw new myFavoriteError('this is a custom global error');
+      }
+      
+    })
+
+    window.addEventListener('error',()=>{
+      console.log('the window has listened for our global error...');
+      badCode();
+    })
+
+    function badCode(){
+      alert('heh you wrote bad code');
+    }
+
+
   </script>
 </body>
 
